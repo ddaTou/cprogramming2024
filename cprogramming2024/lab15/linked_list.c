@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include<assert.h>
+
+
 
 // Node of a linked list
 struct intNode {
@@ -50,10 +53,9 @@ void insert(struct intNode* prev, struct intNode* current) {
 void delete(struct intNode* prev, struct intNode* current) {
 }
 
-// Test function for assertions
-void test_linked_list() {
-    // Test create_linked_list and traverse_linked_list
-    int arr[] = {1, 2, 3, 4, 5};
+//Test traverse_linked_list
+void test_traverse_linked_list(){
+int arr[] = {1, 2, 3, 4, 5};
     struct intNode* list = create_linked_list(arr, 5);
     int output[5];
     int size;
@@ -63,30 +65,63 @@ void test_linked_list() {
     for (int i = 0; i < size; i++) {
         assert(output[i] == arr[i]);  // Ensure the values match the original array
     }
-
-    // Test find function
-    struct intNode* found = search(list, 3);
-    assert(found != NULL);  // Node with value 3 should be found
-    assert(found->value == 3);  // Ensure the value is correct
-
-    found = search(list, 6);
-    assert(found == NULL);  // Node with value 6 should not be found
-
-    // Test insert function
-    struct intNode* new_node = create_node(99, NULL);
-    insert(list->next, new_node);  // Insert 99 after the first node (1)
-    assert(list->next->next->value == 99);  // Ensure 99 is correctly inserted after 1
-
-    // Test delete function
-    delete(list->next, new_node);  // Delete the node with value 99
-    assert(list->next->next->value == 2);  // Ensure 99 was deleted
-
-    // Test free_linked_list
-    free_linked_list(list);  // Ensure the memory is freed without memory leaks
+free_linked_list(list); 
+printf("test_traverse_function passed!\n");
 }
 
+// Test find function
+void test_find_function(){
+int arr[] = {1, 2, 3, 4, 5};
+struct intNode* list = create_linked_list(arr, 5);
+
+struct intNode* found = search(list, 3);
+assert(found != NULL);  // Node with value 3 should be found
+assert(found->value == 3);  // Ensure the value is correct
+
+found = search(list, 6);
+assert(found == NULL);  // Node with value 6 should not be found
+
+free_linked_list(list); 
+printf("test_find_function passed!\n");
+}
+// Test insert function
+void test_insert_function(){
+int arr[] = {1, 2, 3, 4, 5};
+struct intNode* list = create_linked_list(arr, 5);
+
+struct intNode* new_node = create_node(99, NULL);
+insert(list->next, new_node);  // Insert 99 after the first node (1)
+assert(list->next->next->value == 99);  // Ensure 99 is correctly inserted after 1
+
+free_linked_list(list); 
+printf("test_insert_function passed!\n");
+}
+
+//test delete function
+void test_delete_function(){
+int arr[] = {1, 2, 3, 4, 5};
+struct intNode* list = create_linked_list(arr, 5);
+struct intNode* delete_node=list->next->next;
+
+struct intNode*tmp=list->next;
+
+
+delete(list->next, delete_node);  // Delete the node with value 1
+assert(list->next->next->value == 3);  // Ensure 1 was deleted
+
+
+
+free_linked_list(list); 
+printf("test_delete_function passed!\n");
+}
+
+
 int main() {
-    test_linked_list();  // Run the tests
+    test_traverse_linked_list();
+    test_find_function();
+    test_insert_function();
+    test_delete_function();
+
     printf("All tests passed!\n");
     return 0;
 }
